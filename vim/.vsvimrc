@@ -1,0 +1,23 @@
+source $VIMRUNTIME/mswin.vim
+
+syntax on
+colorscheme ron
+set background=dark
+hi NonText guibg=black
+set expandtab
+set guifont=Courier_New:h10:cANSI
+set ic
+set nobackup
+set noswapfile
+set nowritebackup
+set shiftwidth=4
+set tabstop=4
+set autoindent
+set smartindent
+set cursorline
+set backspace=indent,eol,start
+set noexpandtab
+set ruler
+set number
+set wildmenu
+

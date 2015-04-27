@@ -1,0 +1,25 @@
+[user]
+	name = Paul Gross
+	email = paul.gross@centare.com
+
+[difftool "kdiff3"]
+    path = C:/Program Files (x86)/KDiff3/kdiff3.exe
+    trustExitCode = false
+[difftool]
+    prompt = false
+[diff]
+    tool = kdiff3
+[mergetool "kdiff3"]
+    path = C:/Program Files (x86)/KDiff3/kdiff3.exe
+    trustExitCode = false
+[mergetool]
+    keepBackup = false
+[merge]
+    tool = kdiff3
+[push]
+	default = simple
+[core]
+	autocrlf = true
+	excludesfile = C:\\Users\\paul.gross\\Documents\\gitignore_global.txt
+	editor = 'C:/Program Files (x86)/Vim/vim74/gvim.exe'
+
