@@ -1,3 +1,6 @@
+Auto Rename Tag
+Spelling and Grammar Checker
+Git History
 Typescript Hero
 C#
 Debugger for Chrome

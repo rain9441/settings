@@ -1,5 +1,5 @@
 // Place your key bindings in this file to overwrite the defaults
 [
     { "key": "alt+w alt+w", "command": "workbench.action.closeActiveEditor" },
-    { "key": "alt+w alt+a", "command": "workbench.action.closeAllEditors" }
+    { "key": "alt+w alt+q", "command": "workbench.action.closeAllEditors" }
 ]
