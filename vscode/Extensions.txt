@@ -1,0 +1,13 @@
+Typescript Hero
+C#
+Debugger for Chrome
+mssql
+Vim
+beautify
+Dracula Syntax Theme
+Eden Theme
+GitLens
+Path Intellisense
+TSLint
+vscode-icons
+npm Intellisense

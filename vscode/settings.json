@@ -1,0 +1,7 @@
+{
+    "workbench.editor.enablePreview": false,
+    "workbench.sideBar.location": "right",
+    "workbench.statusBar.visible": true,
+    "explorer.openEditors.visible": 0,
+    "gitlens.advanced.git": "c:/users/paul.gross/appdata/local/programs/git/bin/git.exe"
+}
