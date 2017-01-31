@@ -1,25 +1,31 @@
 [user]
-	name = Paul Gross
+	name = paul.gross@centare.com
 	email = paul.gross@centare.com
 
 [difftool "kdiff3"]
-    path = C:/Program Files (x86)/KDiff3/kdiff3.exe
-    trustExitCode = false
+	path = C:/Program Files/KDiff3/kdiff3.exe
+	trustExitCode = false
 [difftool]
-    prompt = false
+	prompt = false
 [diff]
-    tool = kdiff3
+	tool = kdiff3
 [mergetool "kdiff3"]
-    path = C:/Program Files (x86)/KDiff3/kdiff3.exe
-    trustExitCode = false
+	path = C:/Program Files/KDiff3/kdiff3.exe
+	trustExitCode = false
 [mergetool]
-    keepBackup = false
+	keepBackup = false
 [merge]
-    tool = kdiff3
+	tool = kdiff3
+
 [push]
 	default = simple
-[core]
-	autocrlf = true
-	excludesfile = C:\\Users\\paul.gross\\Documents\\gitignore_global.txt
-	editor = 'C:/Program Files (x86)/Vim/vim74/gvim.exe'
 
+[core]
+	excludesfile = "c:/users/paul.gross/.gitignore_global"
+	autocrlf = true
+[credential]
+	helper = wincred
+[credential "https://centare.visualstudio.com"]
+	username = paul.gross@centare.com
+[credential "https://tfs.centare.com"]
+	username = paul.gross@centare.com
