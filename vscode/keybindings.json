@@ -1,5 +1,8 @@
 // Place your key bindings in this file to overwrite the defaults
 [
     { "key": "alt+w alt+w", "command": "workbench.action.closeActiveEditor" },
-    { "key": "alt+w alt+q", "command": "workbench.action.closeAllEditors" }
+    { "key": "alt+w alt+q", "command": "workbench.action.closeAllEditors" },
+    { "key": "ctrl+k", "command": "-extension.vim_ctrl+k" },
+    { "key": "ctrl+c", "command": "-extension.vim_ctrl+c" },
+    { "key": "ctrl+v", "command": "-extension.vim_ctrl+v" }
 ]

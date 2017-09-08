@@ -1,28 +1,14 @@
 {
-    "mssql.connections": [
-        {
-            "server": ".",
-            "database": "Patina",
-            "authenticationType": "Integrated",
-            "profileName": "LocalPatina",
-            "password": ""
-        },
-        {
-            "server": "patina-mentorbank-dev.database.windows.net",
-            "database": "PatinaMentorBankQa",
-            "authenticationType": "SqlLogin",
-            "user": "centare",
-            "password": "",
-            "savePassword": true,
-            "profileName": "PatinaQA"
-        }
-    ],
     "workbench.editor.enablePreview": false,
     "workbench.sideBar.location": "right",
     "workbench.statusBar.visible": true,
     "explorer.openEditors.visible": 0,
 
     "vim.easymotion": true,
-    "git.path": "c:/users/paul.gross/appdata/local/programs/git/bin/git.exe",
-    "gitlens.advanced.git": "c:/users/paul.gross/appdata/local/programs/git/bin/git.exe"
+    "vim.useSystemClipboard": true,
+    "window.zoomLevel": 0,
+    "typescript.check.tscVersion": false,
+    "workbench.colorTheme": "Dark-Dracula",
+    "workbench.iconTheme": "vscode-icons",
+    "vim.disableAnnoyingNeovimMessage": true
 }

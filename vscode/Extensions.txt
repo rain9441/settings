@@ -1,16 +1,14 @@
-Auto Rename Tag
-Spelling and Grammar Checker
-Git History
-Typescript Hero
-C#
+amVim
+Beautify
+c#
+Dark-Dracula Theme
 Debugger for Chrome
+Git History (git log)
+Git Lens
 mssql
-Vim
-beautify
-Dracula Syntax Theme
-Eden Theme
-GitLens
+npm Intellisense
 Path Intellisense
 TSLint
+TypeScript Hero
+Vim
 vscode-icons
-npm Intellisense
