@@ -1,7 +1,6 @@
 source $VIMRUNTIME/mswin.vim
 
 syntax on
-colorscheme ron
 set background=dark
 hi NonText guibg=black
 set expandtab
@@ -21,9 +20,20 @@ set ruler
 set number
 set wildmenu
 
-
 execute pathogen#infect()
+
+colorscheme dracula
 filetype plugin indent on
+
+
+" Custom keybindings
+"
+" Use ctrl-[hjkl] to select the active split!
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
+
 
 " NERDTREE
 map <F2> :NERDTreeToggle<CR>
