@@ -1,4 +1,4 @@
-@echo on
+lecho on
 
 CP -r "%~dp0.vimrc" "%HOME%"
 if %errorlevel% neq 0 exit /b %errorlevel%
@@ -12,7 +12,7 @@ mkdir "%HOME%/vimfiles/bundle"
 
 mklink /d "%HOME%/.vim" "%HOME%/vimfiles"
 
-"c:\Program Files\Git\mingw64\bin\curl.exe" -LSso "%HOME%/vimfiles/autoload/pathogen.vim" "https://tpo.pe/pathogen.vim"
+curl -LSso "%HOME%/vimfiles/autoload/pathogen.vim" "https://tpo.pe/pathogen.vim"
 
 pushd "%HOME%/vimfiles/bundle"
 git clone https://github.com/kien/ctrlp.vim.git
