@@ -16,8 +16,8 @@ curl -LSso "%HOME%/vimfiles/autoload/pathogen.vim" "https://tpo.pe/pathogen.vim"
 
 pushd "%HOME%/vimfiles/bundle"
 git clone https://github.com/kien/ctrlp.vim.git
-REM git clone https://github.com/Shougo/neocomplete.vim.git
 git clone https://github.com/OmniSharp/omnisharp-vim.git
+git clone https://github.com/Shougo/neocomplete.vim.git
 git clone https://github.com/scrooloose/nerdtree.git
 git clone https://github.com/scrooloose/syntastic.git
 git clone https://github.com/tpope/vim-dispatch.git
