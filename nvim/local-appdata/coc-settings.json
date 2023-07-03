@@ -1,0 +1,5 @@
+{
+    "codeLens.enable": false,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+    "coc.preferences.extensionUpdateCheck": "daily"
+}
