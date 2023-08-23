@@ -1,5 +1,22 @@
 {
     "codeLens.enable": false,
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
-    "coc.preferences.extensionUpdateCheck": "daily"
+    "typescript.preferences.importModuleSpecifier": "project-relative",
+    "typescript.preferences.quoteStyle": "single",
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": true,
+    "typescript.format.semicolons": "insert",
+    "javascript.preferences.quoteStyle": "single",
+    "javascript.format.semicolons": "insert",
+    "inlayHint.enable": false,
+    "workspace.rootPatterns": [".git"],
+    "coc.preferences.extensionUpdateCheck": "daily",
+    "html.format.wrapLineLength": 150,
+    "html.format.wrapAttributes": "preserve-aligned",
+    "languageserver": {
+        "csharp-ls": {
+          "command": "csharp-ls",
+          "filetypes": ["cs", "csharp"],
+          "rootPatterns": ["*.csproj", "*.sln", ".vim/", ".git/", ".hg/"]
+        }
+    }
 }

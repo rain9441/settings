@@ -1,5 +1,5 @@
 
-let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-css', 'coc-docker', 'coc-git', 'coc-html', 'coc-prettier']
+let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-css', 'coc-docker', 'coc-git', 'coc-html', 'coc-eslint']
 
 nmap <silent> <C-]> <Plug>(coc-definition)
 nmap <silent> <C-'> <Plug>(coc-type-definition)
@@ -7,11 +7,12 @@ nmap <silent> <C-;> <Plug>(coc-implementation)
 nmap <silent> <C-\> <Plug>(coc-references)
 
 " Format
-nnoremap <A-k><A-d> :CocCommand prettier.formatFile<CR>
+nnoremap <A-k><A-d> :call CocAction('format')<CR>
 nnoremap <A-k><A-u> :call CocActionAsync('runCommand', 'typescript.removeUnusedImports')<CR>
 noremap <A-k><A-u> :call CocActionAsync('runCommand', 'typescript.removeUnusedImports')<CR>
 nnoremap <A-k><A-s> :call CocActionAsync('runCommand', 'typescript.sortImports')<CR>
 noremap <A-k><A-s> :call CocActionAsync('runCommand', 'typescript.sortImports')<CR>
+noremap <A-k><A-c> <Plug>(coc-codeaction-selected)
 nnoremap <A-k><A-c> <Plug>(coc-codeaction)
 xnoremap <A-k><A-a> <Plug>(coc-format-selected)
 nnoremap <A-k><A-a> :let save_pos = getpos(".")<CR>V<Plug>(coc-format-selected)<CR>:call setpos(".", save_pos)<CR>
