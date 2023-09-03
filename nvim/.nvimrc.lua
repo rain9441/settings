@@ -1,86 +1,52 @@
+require('telescope').setup { file_ignore_patterns = { 'node_modules' }, }
 
-require('telescope').setup{ file_ignore_patterns = {'node_modules'}, }
+require('telescope').setup {
+  defaults = vim.tbl_extend(
+    "force",
+    require('telescope.themes').get_ivy(),
+    {
+      sorting_strategy = "ascending",
+      layout_config = {
+        prompt_position = "top",
+      },
+      mappings = {
+        i = {
+          ['<C-k>'] = require('telescope.actions').move_selection_previous,
+          ['<C-j>'] = require('telescope.actions').move_selection_next,
+          ['<C-u>'] = require('telescope.actions').results_scrolling_up,
+          ['<C-d>'] = require('telescope.actions').results_scrolling_down,
+          ["<C-P>"] = require('telescope.actions').cycle_history_prev,
+          ["<C-N>"] = require('telescope.actions').cycle_history_next,
+          ["<C-Tab>"] = require('telescope.actions').toggle_selection,
+          ["<C-S-Tab>"] = require('telescope.actions').toggle_selection,
+        },
+      },
+    }
+  ),
+  pickers = {
+    buffers = {
+      path_display = { "smart", "shorten" },
+      ignore_current_buffer = true,
+      sort_lastused = true,
+      mappings = {
+        i = {
+          ['<C-S-Tab>'] = require('telescope.actions').move_selection_previous,
+          ['<C-Tab>'] = require('telescope.actions').move_selection_next,
+        },
+      },
+    }
+  },
+}
+
 require('nvim-treesitter.install').compilers = { 'clang' }
-
-local actions = require('telescope.actions')
-require('telescope').setup { 
-    pickers = {
-        find_files = { 
-            mappings = { 
-                i = { 
-                    ['<C-k>'] = actions.move_selection_previous,
-                    ['<C-j>'] = actions.move_selection_next,
-                    ['<C-u>'] = actions.results_scrolling_up,
-                    ['<C-d>'] = actions.results_scrolling_down,
-                }, 
-            }, 
-        }, 
-    },
-}
-
 require('nvim-treesitter.configs').setup {
-    highlight = { enable = true },
-    ensure_installed = { 'html', 'typescript', 'javascript', 'json', 'http', 'vim', 'vimdoc', 'query', 'bash', 'dockerfile', 'git_config', 'graphql', 'jsdoc', 'lua', 'regex', 'sql', 'terraform', 'yaml', 'c_sharp' },
+  highlight = { enable = true },
+  ensure_installed = { 'html', 'typescript', 'javascript', 'json', 'http', 'vim', 'vimdoc', 'query', 'bash',
+    'dockerfile', 'git_config', 'graphql', 'jsdoc', 'lua', 'regex', 'sql', 'terraform', 'yaml', 'c_sharp' },
 }
-
-require('dap').adapters['pwa-node'] = {
-  type = 'server',
-  host = 'localhost',
-  port = '${port}',
-  executable = {
-    command = 'node',
-    args = {'c:/projects/vscode-js-debug/out/src/dapDebugServer.js', '${port}'},
-  }
-}
-
-require('dap').adapters.node2 = {
-  type = 'executable',
-  command = 'node',
-  args = {'c:/users/rain/dev/microsoft/vscode-node-debug2/out/src/nodeDebug.js'},
-}
-
-require('dap').configurations.javascript = {
-  {
-    type = 'pwa-node',
-    request = 'launch',
-    name = 'Launch file',
-    program = '${file}',
-    cwd = '${workspaceFolder}',
-  },
-  {
-    name = 'Launch',
-    type = 'node2',
-    request = 'launch',
-    program = '${file}',
-    cwd = vim.fn.getcwd(),
-    sourceMaps = true,
-    protocol = 'inspector',
-    console = 'integratedTerminal',
-  },
-  {
-    -- For this to work you need to make sure the node process is started with the `--inspect` flag.
-    name = 'Attach to process2',
-    type = 'node2',
-    request = 'attach',
-    processId = require('dap.utils').pick_process,
-  },
-}
-
--- Debugger (VSCODE JS)
-require('dap-vscode-js').setup({
-  debugger_path = 'c:/projects/vscode-js-debug', -- Path to vscode-js-debug installation.
-  adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }, -- which adapters to register in nvim-dap
-})
 
 for _, language in ipairs({ 'typescript', 'javascript' }) do
   require('dap').configurations[language] = {
-    {
-      type = 'pwa-node',
-      request = 'launch',
-      name = 'Launch file',
-      program = '${file}',
-      cwd = '${workspaceFolder}',
-    },
     {
       type = 'pwa-node',
       request = 'attach',
@@ -90,63 +56,47 @@ for _, language in ipairs({ 'typescript', 'javascript' }) do
     }
   }
 end
-require('dap').set_log_level('INFO')
 
+require('dapui').setup({
+  force_buffers = true,
+  layouts = { {
+    elements = { {
+      id = "scopes",
+      size = 0.35
+    }, {
+      id = "breakpoints",
+      size = 0.25
+    }, {
+      id = "stacks",
+      size = 0.25
+    }, {
+      id = "watches",
+      size = 0.15
+    }
+    },
+    position = "left",
+    size = 0.20
+  }, {
+    elements = { {
+      id = "console",
+      size = 0.50
+    }, {
+      id = "repl",
+      size = 0.50
+    } },
+    position = "bottom",
+    size = 10
+  } },
+});
 
-local function attach()
-  require('dap').run({
-      name = 'test',
-      type = 'pwa-node',
-      request = 'attach',
-      cwd = vim.fn.getcwd(),
-      sourceMaps = true,
-      protocol = 'inspector',
-      outFiles = {'${workspaceRoot}/**/*.js'}, 
-      skipFiles = {'<node_internals>/**/*.js'},
-      })
-end
-local function attachToRemote()
-  require('dap').run({
-      name = 'test',
-      type = 'pwa-node',
-      request = 'attach',
-      address = '127.0.0.1',
-      port = 9229,
-      localRoot = vim.fn.getcwd(),
-      remoteRoot = vim.fn.getcwd(),
-      sourceMaps = true,
-      protocol = 'inspector',
-      --outFiles = {'${workspaceRoot}/**/*.js'}, 
-      skipFiles = {'<node_internals>/**/*.js'},
-  })
-end
+require('dap-vscode-js').setup({
+  debugger_path = 'c:/projects/vscode-js-debug', -- Path to vscode-js-debug installation.
+  adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },
+})
 
-require('dap').defaults.fallback.terminal_win_cmd = '20split new'
-vim.fn.sign_define('DapBreakpoint', {text = '🟥', texthl = '', linehl = '', numhl = ''})
-vim.fn.sign_define('DapBreakpointRejected', {text = '🟦', texthl = '', linehl = '', numhl = ''})
-vim.fn.sign_define('DapStopped', {text = '⭐️', texthl = '', linehl = '', numhl = ''})
-
-vim.keymap.set('n', '<leader>dh', function() require('dap').toggle_breakpoint() end)
-vim.keymap.set('n', '<leader>dH', ':lua require"dap".set_breakpoint(vim.fn.input("Breakpoint condition: "))<CR>')
-vim.keymap.set({'n', 't'}, '<A-k>', function() require('dap').step_out() end)
-vim.keymap.set({'n', 't'}, '<A-l>', function() require('dap').step_into() end)
-vim.keymap.set({'n', 't'}, '<A-j>', function() require('dap').step_over() end)
-vim.keymap.set({'n', 't'}, '<A-h>', function() require('dap').continue() end)
-vim.keymap.set('n', '<leader>dn', function() require('dap').run_to_cursor() end)
-vim.keymap.set('n', '<leader>dc', function() require('dap').terminate() end)
-vim.keymap.set('n', '<leader>dR', function() require('dap').clear_breakpoints() end)
-vim.keymap.set('n', '<leader>de', function() require('dap').set_exception_breakpoints({'all'}) end)
---vim.keymap.set('n', '<leader>da', function() attach() end)
-vim.keymap.set('n', '<leader>da', function() attachToRemote() end)
-vim.keymap.set('n', '<leader>di', function() require('dap.ui.widgets').hover() end)
-vim.keymap.set('n', '<leader>d?', function()
-    local widgets = require('dap.ui.widgets');
-    widgets.centered_float(widgets.scopes)
-end)
-vim.keymap.set('n', '<leader>dk', ':lua require("dap").up()<CR>zz')
-vim.keymap.set('n', '<leader>dj', ':lua require("dap").down()<CR>zz')
-vim.keymap.set('n', '<leader>dr', ':lua require("dap").repl.toggle({}, "vsplit")<CR><C-w>l')
-vim.keymap.set('n', '<leader>du', ':lua require("dapui").toggle()<CR>')
+require('dap.ext.vscode').type_to_filetypes = { ["pwa-node"] = { 'javascript', 'typescript' } }
+require('telescope').load_extension('dap')
+require('persistent-breakpoints').setup({ load_breakpoints_event = { "BufReadPost" } })
 
 require('rest-nvim').setup({
   -- Open request results in a horizontal split
@@ -178,16 +128,17 @@ require('rest-nvim').setup({
 
 vim.cmd('luafile ~/.nvimrc.nvimtree.lua')
 
-require('nvim-surround').setup({ })
+require('nvim-surround').setup({})
+
 require('hlargs').setup({ performance = { slow_parse_delay = 5 } })
 
 require('ccc').setup({
-    -- Your preferred settings
-    -- Example: enable highlighter
-    highlighter = {
-        auto_enable = true,
-        lsp = true,
-    },
+  -- Your preferred settings
+  -- Example: enable highlighter
+  highlighter = {
+    auto_enable = true,
+    lsp = true,
+  },
 })
 
 local colors = {
@@ -238,5 +189,189 @@ require('dracula').setup({
   },
 })
 
-require('nvim-treesitter.configs').setup({});
+
+require("dressing").setup({})
+require('Comment').setup({
+  padding = true,
+  sticky = true,
+  ignore = nil,
+  toggler = {
+    line = ',gc',
+    block = ',gb',
+  },
+  opleader = {
+    line = ',tc',
+    block = ',tb',
+  },
+  mappings = {
+    basic = true,
+    extra = true,
+  },
+})
+
+require('treesj').setup({
+  use_default_keymaps = false,
+  max_join_length = 150,
+});
+
+local langs = require('treesj.langs')
+langs.presets['javascript'].array.join.space_in_brackets = false
+langs.presets['typescript'].array.join.space_in_brackets = false
+
+require('neogen').setup({
+  enabled = true,
+  languages = {
+    javascript = {
+      template = {
+        annotation_convention = "custom",
+        custom = {
+          { nil, "/** $1 */",       { no_results = true, type = { "func", "class" } } },
+          { nil, "/** @type $1 */", { no_results = true, type = { "type" } } },
+          { nil, "/** $1 */",       { type = { "class", "func", "type" } } },
+        }
+      }
+    },
+    typescript = {
+      template = {
+        annotation_convention = "custom",
+        custom = {
+          { nil, "/** $1 */",       { no_results = true, type = { "func", "class" } } },
+          { nil, "/** @type $1 */", { no_results = true, type = { "type" } } },
+          { nil, "/** $1 */",       { type = { "class", "func", "type" } } },
+        }
+      }
+    }
+  }
+})
+
+require("scrollbar").setup()
+
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+local function restore_nvim_tree()
+  local api = require('nvim-tree.api')
+  api.tree.change_root(vim.fn.getcwd())
+  api.tree.open({ focus = false })
+end
+
+require('overseer').setup({
+  task_list = {
+    bindings = {
+      ["?"] = "ShowHelp",
+      ["g?"] = "ShowHelp",
+      ["<CR>"] = "RunAction",
+      ["<C-e>"] = "Edit",
+      ["o"] = "Open",
+      ["<C-v>"] = "OpenVsplit",
+      ["<C-s>"] = "OpenSplit",
+      ["<C-f>"] = "OpenFloat",
+      ["<C-q>"] = "OpenQuickFix",
+      ["p"] = "TogglePreview",
+      ["<M-l>"] = "IncreaseDetail",
+      ["<M-h>"] = "DecreaseDetail",
+      ["L"] = "IncreaseAllDetail",
+      ["H"] = "DecreaseAllDetail",
+      ["<M-[>"] = "DecreaseWidth",
+      ["<M-]>"] = "IncreaseWidth",
+      ["{"] = "PrevTask",
+      ["}"] = "NextTask",
+      ["<M-k>"] = "ScrollOutputUp",
+      ["<M-j>"] = "ScrollOutputDown",
+    }
+  },
+  task_launcher = {
+    bindings = {
+      n = {
+        ["<ESC>"] = "Cancel",
+      }
+    },
+  },
+  task_editor = {
+    -- Set keymap to false to remove default behavior
+    -- You can add custom keymaps here as well (anything vim.keymap.set accepts)
+    bindings = {
+      n = {
+        ["<ESC>"] = "Cancel",
+      },
+    },
+  },
+})
+
+local function get_cwd_as_name()
+  local dir = vim.fn.getcwd(0)
+  return dir:gsub("[^A-Za-z0-9]", "_")
+end
+
+require("auto-session").setup {
+  auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/", "c:/projects/" },
+  pre_save_cmds = {
+    function()
+      require('overseer').save_task_bundle(
+        get_cwd_as_name(),
+        -- Passing nil will use config.opts.save_task_opts. You can call list_tasks() explicitly and
+        -- pass in the results if you want to save specific tasks.
+        nil,
+        { on_conflict = "overwrite" } -- Overwrite existing bundle, if any
+      )
+    end,
+  },
+  -- Optionally get rid of all previous tasks when restoring a session
+  pre_restore_cmds = {
+    function()
+      for _, task in ipairs(require('overseer').list_tasks({})) do
+        task:dispose(true)
+      end
+    end
+  },
+  post_restore_cmds = {
+    function()
+      require('overseer').load_task_bundle(get_cwd_as_name(), { ignore_missing = true })
+    end,
+    function()
+      local api = require('nvim-tree.api')
+      api.tree.change_root(vim.fn.getcwd())
+      api.tree.open({ focus = false })
+    end,
+  },
+}
+
+require("telescope").load_extension("session-lens")
+require('session-lens').setup({ theme = 'ivy', previewer = true })
+require("dap.ext.vscode").json_decode = require("overseer.json").decode
+require('duck').setup({ speed = 2 });
+require('smoothcursor').setup({
+  fancy = {
+    enable = true,
+    head = { cursor = "▷", texthl = "SmoothCursorGreen", linehl = nil },
+    body = {
+      { cursor = "", texthl = "SmoothCursorGreen" },
+      { cursor = "●", texthl = "SmoothCursorAqua" },
+      { cursor = "•", texthl = "SmoothCursorAqua" },
+      { cursor = ".", texthl = "SmoothCursorBlue" },
+    },
+  },
+  speed = 20,
+  intervals = 8
+})
+
+-- require("neotest").setup({
+--   consumers = {
+--     overseer = require("neotest.consumers.overseer"),
+--   },
+--   adapters = {
+--     require('neotest-jest')({
+--       jestCommand = "npx jest",
+--       jestConfigFile = function()
+--         local file = vim.fn.expand('%:p')
+--         if string.find(file, '\\src\\') then
+--           return string.match(file, "(.-\\[^\\]+\\)src") .. "jest.config.ts"
+--         end
+--
+--         return vim.fn.getcwd() .. '/jest.config.ts'
+--       end,
+--       env = { CI = true },
+--     }),
+--   }
+--
+-- })
+-- require('coverage').setup()
 

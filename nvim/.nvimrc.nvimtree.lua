@@ -15,7 +15,7 @@ local function on_attach(bufnr)
       ['<C-v>'] = { api.node.open.vertical, 'Open: Vertical Split' },
       ['<C-x>'] = { api.node.open.horizontal, 'Open: Horizontal Split' },
       ['<BS>'] = { api.node.navigate.parent_close, 'Close Directory' },
-      ['<CR>'] = { api.node.open.edit, 'Open' },
+      -- ['<CR>'] = { api.node.open.edit, 'Open' },
       ['<Tab>'] = { api.node.open.preview, 'Open Preview' },
       ['>'] = { api.node.navigate.sibling.next, 'Next Sibling' },
       ['<'] = { api.node.navigate.sibling.prev, 'Previous Sibling' },
@@ -64,7 +64,6 @@ local function on_attach(bufnr)
       -- Mappings migrated from view.mappings.list
       --['l'] = { api.node.open.edit, 'Open' },
       ['<CR>'] = { api.node.open.edit, 'Open' },
-      ['o'] = { api.node.open.edit, 'Open' },
       --['h'] = { api.node.navigate.parent_close, 'Close Directory' },
       ['v'] = { api.node.open.vertical, 'Open: Vertical Split' },
       ['C'] = { api.tree.change_root_to_node, 'CD' },
@@ -82,14 +81,26 @@ require('nvim-tree').setup({
   sort_by = 'case_sensitive',
   view = { width = 54, side = 'right' },
   renderer = {
-      special_files = {},
-      indent_width = 3,
-      highlight_git = true,
-      indent_markers = { enable = true },
-      icons = { show = { folder_arrow = false, git = false } }
+    special_files = {},
+    indent_width = 3,
+    highlight_git = true,
+    indent_markers = { enable = true },
+    icons = { show = { folder_arrow = false, git = false } }
   },
   filters = { dotfiles = false },
-  actions = { change_dir = { global = true, restrict_above_cwd = false } },
+  actions = { 
+    change_dir = { global = true, restrict_above_cwd = false } ,
+    open_file = {
+      window_picker = {
+        exclude = {
+          filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame", "dapui_console", "dapui_watches", "dap-repl" },
+        }
+      }
+    },
+    remove_file ={
+      close_window = false
+    }
+  },
   live_filter = { always_show_folders = false },
 })
 

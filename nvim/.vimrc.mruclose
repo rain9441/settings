@@ -11,9 +11,13 @@ let s:MRUList = []
 let s:name = 'hgiadfasef' "'[BufExplorer]'
 
 " Setup the autocommands that handle the MRUList and other stuff. {{{2
-autocmd VimEnter * call s:Setup()
-" Reset MRUList and buffer->tab associations after loading a session. {{{2
-autocmd SessionLoadPost * call s:Reset()
+
+augroup BufferCloseCommands
+    autocmd!
+    autocmd VimEnter * call s:Setup()
+    " Reset MRUList and buffer->tab associations after loading a session. {{{2
+    autocmd SessionLoadPost * call s:Reset()
+augroup END
 
 " Setup {{{2
 function! s:Setup()
@@ -23,6 +27,7 @@ function! s:Setup()
     augroup BufferClose
         autocmd!
         autocmd BufEnter,BufNew * call s:ActivateBuffer()
+        autocmd BufLeave * call s:LeaveBuffer()
         autocmd BufWipeOut * call s:DeactivateBuffer(1)
         autocmd BufDelete * call s:DeactivateBuffer(0)
     augroup END
@@ -46,6 +51,14 @@ endfunction
 function! s:DeactivateBuffer(remove)
     let _bufnr = str2nr(expand("<abuf>"))
     call s:MRUPop(_bufnr)
+endfunction
+
+function! s:LeaveBuffer()
+    let _bufnr = bufnr("%")
+    let _bufinfo = getbufinfo(_bufnr)
+    if empty(getbufvar(_bufnr, "&buftype")) == 1 && empty(getbufvar(_bufnr, "name")) && _bufinfo[0].changed == 0 && len(s:MRUList) > 1
+        " execute "keepalt silent bd" _bufnr
+    endif
 endfunction
 
 " MRUPop {{{2

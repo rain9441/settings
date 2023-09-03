@@ -8,15 +8,9 @@
     "javascript.preferences.quoteStyle": "single",
     "javascript.format.semicolons": "insert",
     "inlayHint.enable": false,
-    "workspace.rootPatterns": [".git"],
-    "coc.preferences.extensionUpdateCheck": "daily",
     "html.format.wrapLineLength": 150,
     "html.format.wrapAttributes": "preserve-aligned",
-    "languageserver": {
-        "csharp-ls": {
-          "command": "csharp-ls",
-          "filetypes": ["cs", "csharp"],
-          "rootPatterns": ["*.csproj", "*.sln", ".vim/", ".git/", ".hg/"]
-        }
-    }
+    "Lua.misc.executablePath": "c:/projects/lua-language-server/bin/",
+    "lua.checkForUpdates": "disabled",
+    "lua.enable": true
 }

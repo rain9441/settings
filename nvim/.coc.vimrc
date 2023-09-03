@@ -1,5 +1,5 @@
 
-let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-css', 'coc-docker', 'coc-git', 'coc-html', 'coc-eslint']
+let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-css', 'coc-docker', 'coc-git', 'coc-html', 'coc-eslint', 'coc-sumneko-lua']
 
 nmap <silent> <C-]> <Plug>(coc-definition)
 nmap <silent> <C-'> <Plug>(coc-type-definition)
