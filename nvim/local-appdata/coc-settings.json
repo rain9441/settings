@@ -10,7 +10,5 @@
     "inlayHint.enable": false,
     "html.format.wrapLineLength": 150,
     "html.format.wrapAttributes": "preserve-aligned",
-    "Lua.misc.executablePath": "c:/projects/lua-language-server/bin/",
-    "lua.checkForUpdates": "disabled",
-    "lua.enable": true
+    "Lua.misc.executablePath": "c:/projects/lua-language-server/bin/"
 }

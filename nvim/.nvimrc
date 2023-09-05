@@ -6,6 +6,7 @@ filetype off
 " 'vim-airline/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
+set sessionoptions = "blank,buffers,curdir,folds,help,localoptions,tabpages,winsize,winpos,terminal"
 
 luafile ~/.init.lua
 
@@ -70,8 +71,8 @@ augroup QuickFixToBottom
 augroup END
 
 " NvimTree
-map <F2> :NvimTreeToggle<CR>
-map <F3> :NvimTreeFindFile<CR>
+map <silent> <F2> :NvimTreeToggle<CR>
+map <silent> <F3> :NvimTreeFindFile<CR>
 
 " Custom keybindings
 " Use ctrl-[hjkl] to select the active split!
@@ -80,17 +81,35 @@ nmap <silent> <c-j> :wincmd j<CR>
 nmap <silent> <c-h> :wincmd h<CR>
 nmap <silent> <c-l> :wincmd l<CR>
 
-" BufExplorer
-nnoremap <silent> <C-Tab> <cmd>call CustomTab()<CR>
-nnoremap <silent> <C-S-Tab> <cmd>call CustomTab()<CR>
-
-augroup UnlistBuffers
+augroup CustomUnlistBuffers
     autocmd!
     autocmd TermOpen * set nobl
-    autocmd FileType dapui-console set nobl
-    autocmd FileType dap-repl set nobl
-    autocmd FileType OverseerList set nobl
+    " autocmd FileType dapui-console set nobl
+    " autocmd FileType dap-repl set nobl
+    " autocmd FileType OverseerList set nobl
 augroup END
+
+" Font size changes
+let s:fontsize = 10.5
+function! SetFontSize(amount)
+  let s:fontsize = a:amount
+  echo 'Font Size: ' . string(s:fontsize)
+  :execute 'GuiFont! Consolas\ NFM:h' . string(s:fontsize) . ':cDEFAULT'
+endfunction
+function! AdjustFontSize(amount)
+  call SetFontSize(s:fontsize + a:amount)
+endfunction
+" In normal mode, pressing numpad's+ increases the font
+noremap <kPlus> :call AdjustFontSize(+0.25)<CR>
+noremap <S-kPlus> :call AdjustFontSize(+1.00)<CR>
+noremap <kMinus> :call AdjustFontSize(-0.25)<CR>
+noremap <S-kMinus> :call AdjustFontSize(-1.00)<CR>
+noremap <C-kMinus> :call SetFontSize(9)<CR>
+noremap <C-kPlus> :call SetFontSize(10.5)<CR>
+noremap <C-kEnter> :call SetFontSize(16)<CR>
+" In insert mode, pressing ctrl + numpad's+ increases the font
+inoremap <C-kPlus> <Esc>:call AdjustFontSize(+0.25)<CR>a
+inoremap <C-kMinus> <Esc>:call AdjustFontSize(-0.25)<CR>a
 
 function! CustomTab()
     let info = getbufinfo('%')[0]
@@ -109,6 +128,8 @@ function! CustomTab()
         endfor
     endif
 endfunction
+nnoremap <silent> <C-Tab> <cmd>call CustomTab()<CR>
+nnoremap <silent> <C-S-Tab> <cmd>call CustomTab()<CR>
 
 " Showmatch significantly slows down omnicomplete when the first match contains parentheses.
 set showmatch
@@ -137,8 +158,8 @@ augroup END
 let g:fugitive_pty = 0
 
 " Bind Ctrl-8 to Ripgrep for selection
-vnoremap <C-8> y<Esc>:Rg <C-R>"<CR>
-nnoremap <C-8> :Rg<CR>
+vnoremap <silent> <C-8> y<Esc>:Rg <C-R>"<CR>
+nnoremap <silent> <C-8> :Rg<CR>
 
 " Command :Gf <file> to find in files across all files in the current git repo
 command! -nargs=1 Gf noautocmd lvimgrep /<args>/gj `git ls-files` | lw
@@ -150,13 +171,12 @@ nmap <silent> <leader>cn :e ~/.nvimrc<CR>
 nmap <silent> <leader>cw :e ~/.mswin.vimrc<CR>
 nmap <silent> <leader>cc :e ~/.coc.vimrc<CR>
 nmap <silent> <leader>ci :e ~/.init.lua<CR>
-nmap <silent> <leader>cl :e ~/.nvimrc.lua<CR>
 nmap <silent> <leader>co :e ~/AppData/Local/nvim/<CR>
 nmap <silent> <leader>c :echo glob("~/.*vimrc")<CR>
 
 " Quack
-nnoremap <leader>= <cmd>lua require("duck").hatch()<CR>
-nnoremap <leader>- <cmd>lua require("duck").cook()<CR>
+nnoremap <silent> <leader>= <cmd>lua require("duck").hatch()<CR>
+nnoremap <silent> <leader>- <cmd>lua require("duck").cook()<CR>
 
 " MoveLine
 " Normal-mode commands
@@ -202,7 +222,7 @@ nmap <silent> <leader>qc :cclose<CR>
 
 nnoremap <silent> t <Plug>(comment_toggle_linewise_current)
 nnoremap <silent> <C-T> <Plug>(comment_toggle_blockwise_current)
-vnoremap <silent> T <Plug>(comment_toggle_linewise_visual)
+vnoremap <silent> t <Plug>(comment_toggle_linewise_visual)
 vnoremap <silent> <C-T> <Plug>(comment_toggle_blockwise_visual)
 
 " telescope
@@ -219,7 +239,25 @@ nnoremap <silent> <leader>ftt <cmd>Telescope git_commits<cr>
 nnoremap <silent> <leader>ftb <cmd>Telescope git_bcommits<cr>
 nnoremap <silent> <leader>fts <cmd>Telescope git_status<cr>
 nnoremap <silent> <leader>fl <cmd>Telescope builtin<cr>
-nnoremap <silent> <leader>ss <cmd>Telescope session-lens search_session<cr>
+nnoremap <silent> <leader>sl <cmd>SessionManager load_session<cr>
+nnoremap <silent> <leader>ss <cmd>SessionManager save_current_session<cr>
+nnoremap <silent> <leader>sd <cmd>SessionManager delete_session<cr>
+
+lua << EOF
+    function get_cwd_as_name()
+      local dir = vim.fn.getcwd(0)
+      return dir:gsub('[^A-Za-z0-9]', '_')
+    end
+EOF
+
+augroup SessionHooks
+    autocmd!
+    autocmd User SessionLoadPre lua for _, task in ipairs(require('overseer').list_tasks({})) do task:dispose(true) end
+    autocmd User SessionLoadPost lua require('nvim-tree.api').tree.change_root(vim.fn.getcwd())
+    autocmd User SessionLoadPost lua require('nvim-tree.api').tree.toggle({ focus = false })
+    autocmd User SessionLoadPost lua require('overseer').load_task_bundle(get_cwd_as_name(), { ignore_missing = true, autostart = false })
+    autocmd User SessionSavePre lua require('overseer').save_task_bundle(get_cwd_as_name(), nil, { on_conflict = 'overwrite' })
+augroup END
 
 nmap <silent> <leader>hr :set filetype=http<CR>:lua require('rest-nvim').run()<CR>
 nmap <silent> <leader>h? :lua require('rest-nvim').run(true)<CR>
@@ -233,7 +271,7 @@ nnoremap <silent> <leader>m :TSJToggle<CR>
 
 " Treesitter
 nnoremap <silent> <leader>hi :TSHighlightCapturesUnderCursor<CR>
-nnoremap <leader>hp :TSPlaygroundToggle<CR>
+nnoremap <silent> <leader>hp :TSPlaygroundToggle<CR>
 
 " 'ryanoasis/vim-devicons'
 " WebDev Icons fix: after a re-source, fix syntax matching issues (concealing brackets):
@@ -247,8 +285,5 @@ source ~/.coc.vimrc
 " Load MSWIN'ish overrides
 source ~/.mswin.vimrc
 
-" NvrimRC
-luafile ~/.nvimrc.lua
 
 colorscheme dracula
-    

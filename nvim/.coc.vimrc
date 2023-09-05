@@ -77,10 +77,10 @@ augroup end
 
 " COC Code Refactor stuff
 nmap <leader>rn <Plug>(coc-rename)
-xmap <leader>rs  <Plug>(coc-codeaction-selected)
-nmap <leader>rs  <Plug>(coc-codeaction-selected)
-nmap <leader>rc  <Plug>(coc-codeaction-cursor)
-nmap <leader>ra  <Plug>(coc-codeaction-source)
+xmap <leader>rs <Plug>(coc-codeaction-selected)
+nmap <leader>rs <Plug>(coc-codeaction-selected)
+nmap <leader>rc <Plug>(coc-codeaction-cursor)
+nmap <leader>ra <Plug>(coc-codeaction-source)
 
 " Remap keys for applying refactor code actions
 nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
@@ -88,7 +88,7 @@ xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
 " nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
 
 " Run the Code Lens action on the current line
-nmap <leader>rl  <Plug>(coc-codelens-action)
+nmap <leader>rl <Plug>(coc-codelens-action)
 
 " Map function and class text objects
 xmap if <Plug>(coc-funcobj-i)
