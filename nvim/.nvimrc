@@ -6,7 +6,7 @@ filetype off
 " 'vim-airline/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
-set sessionoptions = "blank,buffers,curdir,folds,help,localoptions,tabpages,winsize,winpos,terminal"
+set sessionoptions=blank,buffers,curdir,folds,help,localoptions,tabpages,winsize,winpos,terminal
 
 luafile ~/.init.lua
 
@@ -149,7 +149,7 @@ set tabstop=4
 augroup FileTypeBasedShiftWidths
   autocmd!
   autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
-  autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+  autocmd FileType javascript,json setlocal shiftwidth=2 tabstop=2
   autocmd FileType lua setlocal shiftwidth=2 tabstop=2
 augroup END
 

@@ -176,7 +176,7 @@ require('lazy').setup({
       end
       vim.cmd('augroup Dap | autocmd FileType dap-repl set nobl | augroup END')
     end
-  }, -- Debugger
+  },
   {
     'mxsdev/nvim-dap-vscode-js',
     event = 'VeryLazy',
@@ -185,10 +185,10 @@ require('lazy').setup({
         debugger_path = 'c:/projects/vscode-js-debug', -- Path to vscode-js-debug installation.
         adapters = { 'pwa-node' },
       })
-      require('dap.ext.vscode').type_to_filetypes = { ['pwa-node'] = { 'javascript', 'typescript' } }
+      require('dap.ext.vscode').type_to_filetypes = { ['pwa-node'] = { 'javascript', 'typescript' }}
       require('dap.ext.vscode').json_decode = require('overseer.json').decode
     end
-  }, -- JS Debugger
+  },
   {
     'rcarriga/nvim-dap-ui',
     event = 'VeryLazy',
@@ -197,32 +197,32 @@ require('lazy').setup({
         force_buffers = true,
         layouts = { {
           elements = { {
-            id = 'scopes',
-            size = 0.35
+            id = 'console',
+            size = 0.90
           }, {
+            id = 'repl',
+            size = 0.10
+          } },
+          position = 'bottom',
+          size = 10
+        }, {
+          elements = { {
             id = 'breakpoints',
-            size = 0.25
+            size = 0.10
+          }, {
+            id = 'scopes',
+            size = 0.50
           }, {
             id = 'stacks',
-            size = 0.25
+            size = 0.30
           }, {
             id = 'watches',
-            size = 0.15
+            size = 0.10
           }
           },
           position = 'left',
           size = 0.20
-        }, {
-          elements = { {
-            id = 'console',
-            size = 0.50
-          }, {
-            id = 'repl',
-            size = 0.50
-          } },
-          position = 'bottom',
-          size = 10
-        } },
+        }, },
       });
       vim.cmd('augroup DapUI | autocmd FileType dapui-console set nobl | augroup END')
     end
@@ -626,7 +626,7 @@ require('lazy').setup({
         speed = 20,
         intervals = 8,
         disable_float_win = true,
-        disabled_filetypes = { 'OverseerList', 'OverseerForm', '' },
+        disabled_filetypes = { 'OverseerList', 'OverseerForm', 'dapui_*' },
       })
     end
   },
