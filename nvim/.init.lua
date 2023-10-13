@@ -131,7 +131,11 @@ require('lazy').setup({
           buffers = {
             path_display = { 'smart', 'shorten' },
             ignore_current_buffer = true,
-            sort_lastused = true,
+            sort_mru = true,
+            sorting_strategy = 'ascending',
+            layout_config = {
+              prompt_position = 'top',
+            },
             mappings = {
               i = {
                 ['<C-S-Tab>'] = require('telescope.actions').move_selection_previous,
@@ -355,7 +359,7 @@ require('lazy').setup({
 
       require('nvim-tree').setup({
         on_attach = on_attach,
-        update_focused_file = { update_cwd = true },
+        update_focused_file = { update_cwd = false },
         hijack_cursor = true,
         sort_by = 'case_sensitive',
         view = { width = 54, side = 'right' },

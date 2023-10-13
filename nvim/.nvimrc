@@ -84,6 +84,7 @@ nmap <silent> <c-l> :wincmd l<CR>
 augroup CustomUnlistBuffers
     autocmd!
     autocmd TermOpen * set nobl
+    autocmd FileType qf set nobl
     " autocmd FileType dapui-console set nobl
     " autocmd FileType dap-repl set nobl
     " autocmd FileType OverseerList set nobl
@@ -160,6 +161,9 @@ let g:fugitive_pty = 0
 " Bind Ctrl-8 to Ripgrep for selection
 vnoremap <silent> <C-8> y<Esc>:Rg <C-R>"<CR>
 nnoremap <silent> <C-8> :Rg<CR>
+" Control N and C-S N for Nzz
+nnoremap <silent> <C-N> nzz
+nnoremap <silent> <C-S-N> Nzz
 
 " Command :Gf <file> to find in files across all files in the current git repo
 command! -nargs=1 Gf noautocmd lvimgrep /<args>/gj `git ls-files` | lw
@@ -228,11 +232,13 @@ vnoremap <silent> <C-T> <Plug>(comment_toggle_blockwise_visual)
 " telescope
 "" Find files using Telescope command-line sugar.
 nnoremap <silent> <C-p> <cmd>Telescope find_files<cr>
-nnoremap <silent> <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <silent> <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <silent> <leader>fo <cmd>lua require('telescope.builtin').live_grep({ grep_open_files = true })<cr>
-nnoremap <silent> <leader>ff <cmd>lua require('telescope.builtin').live_grep({ grep_open_files = true })<cr>
+nnoremap <silent> <leader>ff <cmd>Telescope current_buffer_fuzzy_find<cr>
 nnoremap <silent> <leader>fs <cmd>Telescope grep_string<cr>
+nnoremap <silent> <leader>fq <cmd>Telescope quickfix<cr>
+nnoremap <silent> <leader>fQ <cmd>Telescope quickfixhistory<cr>
+nnoremap <silent> <leader>fr <cmd>Telescope registers<cr>
 nnoremap <silent> <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <silent> <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <silent> <leader>ftt <cmd>Telescope git_commits<cr>
